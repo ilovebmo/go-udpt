@@ -37,6 +37,14 @@ func (m Message) InfoHash() []byte {
 	return m.Contents()[16:36]
 }
 
+func (m Message) AllInfoHash() []Torrent {
+	var ToScrape []Torrent
+	for i := 0; i < len(m.Contents()[16:])/20; i += 20 {
+		ToScrape = append(ToScrape, Torrent{m.Contents()[16+i : i+20]})
+	}
+	return ToScrape
+}
+
 func (m Message) PeerId() []byte {
 	return m.Contents()[36:56]
 }
